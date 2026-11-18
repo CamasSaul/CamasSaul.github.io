@@ -1,0 +1,121 @@
+---
+import { portfolio } from '../data/portfolio';
+---
+
+<section id="home" class="home-section">
+	<div class="home-content">
+		<p class="greeting">
+			<span data-lang-es">&gt; Hola, soy</span>
+			<span data-lang-en>&gt; Hello, I'm</span>
+		</p>
+		<h1 class="name">{portfolio.name}</h1>
+		<h2 class="role">
+			<span data-lang-es>{portfolio.role.es}</span>
+			<span data-lang-en>{portfolio.role.en}</span>
+		</h2>
+		<p class="bio">
+			<span data-lang-es>{portfolio.bio.es}</span>
+			<span data-lang-en>{portfolio.bio.en}</span>
+		</p>
+		<div class="cta-links">
+			<a href="#projects" class="btn primary">
+				<span data-lang-es>[ Ver proyectos ]</span>
+				<span data-lang-en>[ View projects ]</span>
+			</a>
+			<a href={portfolio.github} target="_blank" rel="noopener noreferrer" class="btn secondary">
+				<span data-lang-es>[ GitHub ]</span>
+				<span data-lang-en>[ GitHub ]</span>
+			</a>
+		</div>
+	</div>
+</section>
+
+<style>
+	.home-section {
+		min-height: 80vh;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 3em 1em 2em;
+	}
+	.home-content {
+		max-width: 680px;
+		text-align: left;
+	}
+	.greeting {
+		font-size: 1.1em;
+		color: var(--text-dim);
+		margin: 0 0 0.5em 0;
+		font-family: "Courier New", Courier, monospace;
+	}
+	.name {
+		font-size: 3.2em;
+		margin: 0 0 0.2em 0;
+		line-height: 1.1;
+		color: var(--text-bright);
+		font-family: "Courier New", Courier, monospace;
+	}
+	.role {
+		font-size: 1.4em;
+		font-weight: 400;
+		color: var(--text-dim);
+		margin: 0 0 1em 0;
+		font-family: "Courier New", Courier, monospace;
+	}
+	.bio {
+		font-size: 1em;
+		line-height: 1.7;
+		color: var(--text);
+		margin: 0 0 1.5em 0;
+		font-family: "Courier New", Courier, monospace;
+	}
+	.cta-links {
+		display: flex;
+		gap: 1em;
+		flex-wrap: wrap;
+	}
+	.btn {
+		display: inline-block;
+		padding: 0.6em 1.2em;
+		text-decoration: none;
+		font-size: 0.9em;
+		font-weight: 400;
+		transition: all 0.2s;
+		font-family: "Courier New", Courier, monospace;
+		border: 1px solid var(--border);
+		background: transparent;
+		color: var(--text);
+	}
+	.btn.primary {
+		background: var(--text-bright);
+		color: var(--bg);
+		border-color: var(--text-bright);
+	}
+	.btn.primary:hover {
+		background: transparent;
+		color: var(--text-bright);
+	}
+	.btn.secondary:hover {
+		border-color: var(--text-bright);
+		color: var(--text-bright);
+	}
+	[data-lang-es],
+	[data-lang-en] {
+		display: inline;
+	}
+	html[data-lang="en"] [data-lang-es] {
+		display: none;
+	}
+	html[data-lang="es"] [data-lang-en] {
+		display: none;
+	}
+	@media (max-width: 600px) {
+		.name {
+			font-size: 2.4em;
+		}
+		.role {
+			font-size: 1.15em;
+		}
+	}
+</style>
+

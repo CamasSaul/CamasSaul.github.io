@@ -1,0 +1,96 @@
+---
+import { portfolio } from '../data/portfolio';
+---
+
+<section id="contact" class="contact-section">
+	<div class="contact-container">
+		<h2 class="section-title">
+			<span data-lang-es>&gt; Contacto</span>
+			<span data-lang-en>&gt; Contact</span>
+		</h2>
+		<p class="contact-text">
+			<span data-lang-es>¿Tienes un proyecto en mente o quieres colaborar? No dudes en contactarme.</span>
+			<span data-lang-en>Got a project in mind or want to collaborate? Feel free to reach out.</span>
+		</p>
+		<div class="contact-links">
+			<a href={`mailto:${portfolio.email}`} class="contact-item">
+				<svg viewBox="0 0 16 16" width="20" height="20"><path fill="currentColor" d="M.5 3.5v9a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1v-9a1 1 0 0 0-1-1H1.5a1 1 0 0 0-1 1Zm13 8H1.5l6-5.11 6 5.11ZM14.5 3.25L8 7.5 1.5 3.25h13Z"/></svg>
+				<span data-lang-es>Enviar email</span>
+				<span data-lang-en>Send email</span>
+			</a>
+			<a href={portfolio.github} target="_blank" rel="noopener noreferrer" class="contact-item">
+				<svg viewBox="0 0 16 16" width="20" height="20"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+				<span>GitHub</span>
+			</a>
+		</div>
+	</div>
+</section>
+
+<style>
+	.contact-section {
+		padding: 2em 1em;
+	}
+	.contact-container {
+		max-width: 680px;
+		margin: 0 auto;
+		text-align: center;
+	}
+	.section-title {
+		font-size: 1.8em;
+		margin: 0 0 0.8em 0;
+		color: var(--text-bright);
+		font-family: "Courier New", Courier, monospace;
+	}
+	.contact-text {
+		font-size: 1em;
+		line-height: 1.7;
+		color: var(--text);
+		margin: 0 0 1.5em 0;
+		font-family: "Courier New", Courier, monospace;
+	}
+	.contact-links {
+		display: flex;
+		justify-content: center;
+		gap: 1.5em;
+		flex-wrap: wrap;
+	}
+	.contact-item {
+		display: flex;
+		align-items: center;
+		gap: 0.5em;
+		color: var(--text);
+		text-decoration: none;
+		font-size: 0.9em;
+		padding: 0.6em 1.2em;
+		border: 1px solid var(--border);
+		background: var(--bg-card);
+		transition: all 0.2s;
+		font-family: "Courier New", Courier, monospace;
+	}
+	.contact-item:hover {
+		border-color: var(--text-bright);
+		color: var(--text-bright);
+		text-decoration: none;
+		background: var(--bg);
+	}
+	[data-lang-es],
+	[data-lang-en] {
+		display: inline;
+	}
+	html[data-lang="en"] [data-lang-es] {
+		display: none;
+	}
+	html[data-lang="es"] [data-lang-en] {
+		display: none;
+	}
+	@media (max-width: 600px) {
+		.contact-links {
+			flex-direction: column;
+			align-items: center;
+			gap: 1em;
+		}
+		.section-title {
+			font-size: 1.4em;
+		}
+	}
+</style>

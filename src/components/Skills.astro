@@ -1,0 +1,115 @@
+---
+import { portfolio } from '../data/portfolio';
+---
+
+<section id="skills" class="skills-section">
+	<div class="skills-container">
+		<h2 class="section-title">&gt; Skills</h2>
+		<div class="skills-grid">
+			{portfolio.skills.map((skillGroup) => (
+				<div class="skill-card">
+					<h3 class="skill-category">
+						<span data-lang-es>{skillGroup.category.es}</span>
+						<span data-lang-en>{skillGroup.category.en}</span>
+					</h3>
+					<ul class="skill-items">
+						{skillGroup.items.map((item) => (
+							<li>
+								<img class="skill-icon" src={item.icon} alt={`${item.name} logo`} loading="lazy" />
+								<span>{item.name}</span>
+							</li>
+						))}
+					</ul>
+				</div>
+			))}
+		</div>
+	</div>
+</section>
+
+<style>
+	.skills-section {
+		padding: 2em 1em;
+	}
+	.skills-container {
+		max-width: 960px;
+		margin: 0 auto;
+	}
+	.section-title {
+		font-size: 1.8em;
+		margin: 0 0 1.5em 0;
+		text-align: center;
+		color: var(--text-bright);
+		font-family: "Courier New", Courier, monospace;
+	}
+	.skills-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+		gap: 1.5em;
+	}
+	.skill-card {
+		padding: 1.5em;
+		border: 1px solid var(--border);
+		background: var(--bg-card);
+		transition: border-color 0.2s;
+	}
+	.skill-card:hover {
+		border-color: var(--text-bright);
+	}
+	.skill-category {
+		font-size: 0.95em;
+		font-weight: 700;
+		margin: 0 0 1em 0;
+		color: var(--text-bright);
+		font-family: "Courier New", Courier, monospace;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+	}
+	.skill-items {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 0.5em;
+	}
+	.skill-items li {
+		font-size: 0.9em;
+		color: var(--text);
+		padding: 0.25em 0;
+		font-family: "Courier New", Courier, monospace;
+		display: flex;
+		align-items: center;
+		gap: 0.6em;
+	}
+	.skill-icon {
+		width: 18px;
+		height: 18px;
+		flex-shrink: 0;
+		filter: grayscale(100%) brightness(0) invert(1);
+		opacity: 0.6;
+		transition: opacity 0.2s;
+	}
+	.skill-items li:hover .skill-icon {
+		opacity: 1;
+	}
+	[data-lang-es],
+	[data-lang-en] {
+		display: inline;
+	}
+	html[data-lang="en"] [data-lang-es] {
+		display: none;
+	}
+	html[data-lang="es"] [data-lang-en] {
+		display: none;
+	}
+	@media (max-width: 600px) {
+		.skills-grid {
+			grid-template-columns: 1fr 1fr;
+			gap: 1em;
+		}
+		.section-title {
+			font-size: 1.4em;
+			margin-bottom: 2em;
+		}
+	}
+</style>
