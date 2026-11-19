@@ -4,7 +4,7 @@ import { portfolio } from '../data/portfolio';
 
 <section id="skills" class="skills-section">
 	<div class="skills-container">
-		<h2 class="section-title">&gt; Skills</h2>
+		<h2 class="section-title">&gt; Skills &lt;</h2>
 		<div class="skills-grid">
 			{portfolio.skills.map((skillGroup) => (
 				<div class="skill-card">
@@ -23,12 +23,45 @@ import { portfolio } from '../data/portfolio';
 				</div>
 			))}
 		</div>
+
+		<h3 class="category-title">
+			<span data-lang-es>&gt; Libros que he estudiado </span>
+			<span data-lang-en>&gt; Books I've studied </span>
+		</h3>
+		<div class="books-carousel" aria-roledescription="carousel" aria-label="Libros / Books">
+			<button class="carousel-arrow prev" type="button" aria-label="Anterior / Previous">
+				<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" d="M15 4L7 12l8 8" /></svg>
+			</button>
+			<div class="books-viewport" tabindex="0" role="group" aria-label="Libros / Books">
+				<div class="books-track">
+					{[0, 1, 2].flatMap((copy) => portfolio.books.map((book, index) => (
+						<article class="book-card" data-copy={copy} data-index={index} tabindex={copy === 1 ? 0 : -1} aria-hidden={copy === 1 ? undefined : 'true'}>
+							<div class="book-cover">
+								<img src={book.cover} alt={`Cover of ${book.title}`} loading="lazy" />
+							</div>
+							<div class="book-body">
+								<h4 class="book-title">{book.title}</h4>
+								<p class="book-description">
+									<span data-lang-es>{book.description.es}</span>
+									<span data-lang-en>{book.description.en}</span>
+								</p>
+							</div>
+						</article>
+					)))}
+				</div>
+			</div>
+			<button class="carousel-arrow next" type="button" aria-label="Siguiente / Next">
+				<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" d="M9 4l8 8-8 8" /></svg>
+			</button>
+			<div class="carousel-counter" aria-live="polite"></div>
+		</div>
 	</div>
 </section>
 
 <style>
 	.skills-section {
 		padding: 2em 1em;
+		padding: 2em max(1em, env(safe-area-inset-right)) 2em max(1em, env(safe-area-inset-left));
 	}
 	.skills-container {
 		max-width: 960px;
@@ -41,9 +74,145 @@ import { portfolio } from '../data/portfolio';
 		color: var(--text-bright);
 		font-family: "Courier New", Courier, monospace;
 	}
+	.category-title {
+		font-size: 1em;
+		margin: 3em 0 1.2em 0;
+		padding-left: 0.7em;
+		border-left: 2px solid var(--text-bright);
+		color: var(--text-bright);
+		font-family: "Courier New", Courier, monospace;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+	}
+	.books-carousel {
+		position: relative;
+	}
+	.books-viewport {
+		overflow: hidden;
+		padding: 1.5em 0 0.5em;
+		outline: none;
+		perspective: 1000px;
+	}
+	.books-viewport:focus-visible {
+		box-shadow: inset 0 0 0 1px var(--text-bright);
+	}
+	.books-track {
+		display: flex;
+		align-items: center;
+		gap: 1.5em;
+		will-change: transform;
+		transition: transform 0.45s cubic-bezier(0.22, 0.61, 0.36, 1);
+	}
+	.books-track.is-jumping,
+	.books-track.is-jumping .book-card {
+		transition: none !important;
+	}
+	.book-card {
+		display: flex;
+		flex-direction: column;
+		flex: 0 0 200px;
+		border: 1px solid var(--border);
+		background: var(--bg-card);
+		overflow: hidden;
+		cursor: pointer;
+		transform: scale(0.78);
+		opacity: 0.35;
+		backface-visibility: hidden;
+		transition: transform 0.35s, opacity 0.35s, border-color 0.2s;
+	}
+	.book-card.is-near {
+		transform: scale(0.88);
+		opacity: 0.65;
+	}
+	.book-card.is-near.is-prev {
+		transform: scale(0.88) rotateY(14deg);
+	}
+	.book-card.is-near.is-next {
+		transform: scale(0.88) rotateY(-14deg);
+	}
+	.book-card.is-active {
+		transform: scale(1);
+		opacity: 1;
+	}
+	.book-card:hover,
+	.book-card.is-active,
+	.book-card:focus-visible {
+		border-color: var(--text-bright);
+	}
+	.carousel-arrow {
+		position: absolute;
+		top: 50%;
+		z-index: 2;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 44px;
+		height: 44px;
+		padding: 0;
+		margin-top: -1em;
+		border: 1px solid var(--border);
+		background: var(--bg);
+		color: var(--text-dim);
+		cursor: pointer;
+		transition: color 0.2s, border-color 0.2s;
+	}
+	.carousel-arrow:hover,
+	.carousel-arrow:focus-visible {
+		color: var(--text-bright);
+		border-color: var(--text-bright);
+	}
+	.carousel-arrow.prev {
+		left: 0;
+	}
+	.carousel-arrow.next {
+		right: 0;
+	}
+	.carousel-counter {
+		text-align: center;
+		margin-top: 0.5em;
+		font-family: "Courier New", Courier, monospace;
+		font-size: 0.8em;
+		letter-spacing: 0.15em;
+		color: var(--text-dim);
+	}
+	.book-cover {
+		width: 100%;
+		aspect-ratio: 2 / 3;
+		overflow: hidden;
+	}
+	.book-cover img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		display: block;
+		filter: grayscale(100%);
+		transition: filter 0.3s;
+	}
+	.book-card:hover .book-cover img,
+	.book-card.is-active .book-cover img {
+		filter: grayscale(0%);
+	}
+	.book-body {
+		display: flex;
+		flex-direction: column;
+		flex-grow: 1;
+		padding: 1em;
+	}
+	.book-title {
+		font-size: 0.95em;
+		margin: 0 0 0.5em 0;
+	}
+	.book-description {
+		font-size: 0.8em;
+		line-height: 1.6;
+		color: var(--text-dim);
+		margin: 0;
+		font-family: "Courier New", Courier, monospace;
+		min-height: 5.12em;
+	}
 	.skills-grid {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+		grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
 		gap: 1.5em;
 	}
 	.skill-card {
@@ -87,10 +256,14 @@ import { portfolio } from '../data/portfolio';
 		flex-shrink: 0;
 		filter: grayscale(100%) brightness(0) invert(1);
 		opacity: 0.6;
-		transition: opacity 0.2s;
+		transition: opacity 0.2s, filter 0.2s;
 	}
-	.skill-items li:hover .skill-icon {
+	.skill-card:hover .skill-icon,
+	.skill-card:focus-within .skill-icon,
+	.skill-items li:hover .skill-icon,
+	.skill-items li:focus-within .skill-icon {
 		opacity: 1;
+		filter: grayscale(0%);
 	}
 	[data-lang-es],
 	[data-lang-en] {
@@ -103,13 +276,158 @@ import { portfolio } from '../data/portfolio';
 		display: none;
 	}
 	@media (max-width: 600px) {
-		.skills-grid {
-			grid-template-columns: 1fr 1fr;
+		.books-track {
 			gap: 1em;
+		}
+		.book-card {
+			flex-basis: 170px;
+		}
+		.book-description {
+			min-height: 6.4em;
+		}
+		.carousel-arrow {
+			width: 36px;
+			height: 36px;
+		}
+		.skills-grid {
+			gap: 0.75em;
+		}
+		.skill-card {
+			padding: 1em;
+		}
+		.skill-items li {
+			font-size: 0.85em;
 		}
 		.section-title {
 			font-size: 1.4em;
 			margin-bottom: 2em;
 		}
 	}
+	@media (max-width: 360px) {
+		.skills-grid {
+			grid-template-columns: 1fr;
+		}
+		.book-description {
+			min-height: 7.68em;
+		}
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.books-track,
+		.book-card {
+			transition: none;
+		}
+	}
 </style>
+
+<script>
+	const carousel = document.querySelector<HTMLElement>('.books-carousel');
+	if (carousel) {
+		const viewport = carousel.querySelector<HTMLElement>('.books-viewport')!;
+		const track = carousel.querySelector<HTMLElement>('.books-track')!;
+		const cards = Array.from(track.querySelectorAll<HTMLElement>('.book-card'));
+		const counter = carousel.querySelector<HTMLElement>('.carousel-counter')!;
+		const total = cards.length / 3;
+		const animationTime = 450;
+		let position = total;
+		let animating = false;
+		let endAnimation: (() => void) | null = null;
+
+		const step = () => {
+			const gap = parseFloat(getComputedStyle(track).gap) || 0;
+			return cards[0].offsetWidth + gap;
+		};
+
+		const render = (value: number) => {
+			const cardWidth = cards[0].offsetWidth;
+			const offset = viewport.clientWidth / 2 - (value * step() + cardWidth / 2);
+			track.style.transform = `translateX(${offset}px)`;
+			cards.forEach((card, index) => {
+				const distance = Math.abs(index - value);
+				card.classList.toggle('is-active', distance < 0.5);
+				card.classList.toggle('is-near', distance >= 0.5 && distance < 1.5);
+				card.classList.toggle('is-prev', index < value);
+				card.classList.toggle('is-next', index > value);
+			});
+			const current = ((Math.round(value) % total) + total) % total;
+			counter.textContent = `${String(current + 1).padStart(2, '0')} / ${String(total).padStart(2, '0')}`;
+		};
+
+		const jump = (to: number) => {
+			track.classList.add('is-jumping');
+			position = to;
+			render(position);
+			void track.offsetWidth;
+			track.classList.remove('is-jumping');
+		};
+
+		const finish = () => {
+			if (!animating) return;
+			if (endAnimation) {
+				endAnimation();
+				endAnimation = null;
+			}
+			while (position >= total * 2) jump(position - total);
+			while (position < total) jump(position + total);
+			animating = false;
+		};
+
+		const goTo = (target: number) => {
+			if (animating) return;
+			let distance = target - position;
+			if (distance > total / 2) distance -= total;
+			if (distance < -total / 2) distance += total;
+			if (distance === 0) return;
+			animating = true;
+			position += distance;
+			render(position);
+			const onEnd = (event: TransitionEvent) => {
+				if (event.target === track && event.propertyName === 'transform') finish();
+			};
+			track.addEventListener('transitionend', onEnd);
+			const timer = window.setTimeout(finish, animationTime + 100);
+			endAnimation = () => {
+				track.removeEventListener('transitionend', onEnd);
+				window.clearTimeout(timer);
+			};
+		};
+
+		const go = (direction: number) => goTo(position + direction);
+
+		carousel.querySelector('.prev')!.addEventListener('click', () => go(-1));
+		carousel.querySelector('.next')!.addEventListener('click', () => go(1));
+
+		cards.forEach((card) => {
+			card.addEventListener('click', () => {
+				const copy = Number(card.dataset.copy);
+				const index = Number(card.dataset.index);
+				goTo(copy * total + index);
+			});
+			card.addEventListener('keydown', (event) => {
+				if (event.key === 'Enter') {
+					event.preventDefault();
+					card.click();
+				}
+			});
+		});
+
+		viewport.addEventListener('keydown', (event) => {
+			if (event.key === 'ArrowLeft') {
+				event.preventDefault();
+				go(-1);
+			}
+			if (event.key === 'ArrowRight') {
+				event.preventDefault();
+				go(1);
+			}
+		});
+
+		let lastWidth = viewport.clientWidth;
+		window.addEventListener('resize', () => {
+			const width = viewport.clientWidth;
+			if (width === lastWidth) return;
+			lastWidth = width;
+			jump(position);
+		});
+		jump(position);
+	}
+</script>

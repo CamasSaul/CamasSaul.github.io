@@ -10,6 +10,7 @@ const today = new Date();
 <style>
 	footer {
 		padding: 2em 1em;
+		padding: 2em max(1em, env(safe-area-inset-right)) calc(2em + env(safe-area-inset-bottom)) max(1em, env(safe-area-inset-left));
 		text-align: center;
 		color: var(--text-dim);
 		font-size: 0.8em;

@@ -1,24 +1,27 @@
 ---
-import { portfolio } from '../data/portfolio';
+import { portfolio, techIcons } from '../data/portfolio';
 ---
 
 <section id="projects" class="projects-section">
 	<div class="projects-container">
 		<h2 class="section-title">
-			<span data-lang-es>&gt; Proyectos</span>
-			<span data-lang-en>&gt; Projects</span>
+			<span data-lang-es>&gt; Proyectos &lt;</span>
+			<span data-lang-en>&gt; Projects &lt;</span>
 		</h2>
+		<h3 class="category-title">
+			<span data-lang-es>&gt; Productos completos </span>
+			<span data-lang-en>&gt; Complete products </span>
+		</h3>
 		<div class="projects-grid">
 			{portfolio.projects.map((project) => (
 				<article class="project-card">
 					<div class="project-cover">
-						{project.cover ? (
+						{project.cover && (
 							<img src={project.cover} alt={`Cover of ${project.title}`} loading="lazy" />
-						) : (
-							<div class="cover-placeholder">
-								<span class="placeholder-text">{project.title.slice(0, 2).toUpperCase()}</span>
-							</div>
 						)}
+						<div class:list={['cover-placeholder', { fallback: project.cover }]} aria-hidden={project.cover ? 'true' : undefined}>
+							<span class="placeholder-text">{project.title.slice(0, 2).toUpperCase()}</span>
+						</div>
 					</div>
 					<div class="project-body">
 						<h3 class="project-title">{project.title}</h3>
@@ -27,7 +30,11 @@ import { portfolio } from '../data/portfolio';
 							<span data-lang-en>{project.description.en}</span>
 						</p>
 						<div class="project-tech">
-							{project.tech.map((t) => <span class="tech-tag">{t}</span>)}
+							{project.tech.map((t) => (
+								<span class="tech-tag" data-label={t} role="img" aria-label={t} tabindex="0">
+									{techIcons[t] && <img src={techIcons[t]} alt="" loading="lazy" />}
+								</span>
+							))}
 						</div>
 					</div>
 					<div class="project-actions">
@@ -36,7 +43,40 @@ import { portfolio } from '../data/portfolio';
 							<span>GitHub</span>
 						</a>
 						<a href={project.demo} target="_blank" rel="noopener noreferrer" class="action-btn demo">
-							<svg viewBox="0 0 16 16" width="16" height="16"><path fill="currentColor" d="M.5 3h3v1.17c-1.1.44-2.18 1.36-2.87 2.67h2.97v1.5H.16c.7 1.36 1.8 2.3 2.9 2.73V13h-3c-1.77 0-3-1.23-3-3s1.23-3 3-3zM15.5 3h-3V1.83c1.1-.44 2.18-1.36 2.87-2.67H12.4v-1.5h3.84c-.7-1.36-1.8-2.3-2.9-2.73V0h3c1.77 0 3 1.23 3 3s-1.23 3-3 3zM5 6.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm0 2a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1zm6-2a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm0 2a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"/></svg>
+							<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M4.5 2.2a.9.9 0 0 1 1.37-.77l8.1 5.3a.9.9 0 0 1 0 1.54l-8.1 5.3A.9.9 0 0 1 4.5 13.3V2.2z"/></svg>
+							<span>Demo</span>
+						</a>
+					</div>
+				</article>
+			))}
+		</div>
+
+		<h3 class="category-title">
+			<span data-lang-es>&gt; Productos de una sola tecnología </span>
+			<span data-lang-en>&gt; Single-technology products </span>
+		</h3>
+		<div class="projects-grid mini-grid">
+			{portfolio.singleTech.map((item) => (
+				<article class="mini-card">
+					<div class="mini-top">
+						<span class="tech-tag" data-label={item.tech} role="img" aria-label={item.tech} tabindex="0">
+							{techIcons[item.tech] && <img src={techIcons[item.tech]} alt="" loading="lazy" />}
+						</span>
+						<div class="mini-content">
+							<h4 class="mini-title">{item.title}</h4>
+							<p class="mini-description">
+								<span data-lang-es>{item.description.es}</span>
+								<span data-lang-en>{item.description.en}</span>
+							</p>
+						</div>
+					</div>
+					<div class="project-actions">
+						<a href={item.repo} target="_blank" rel="noopener noreferrer" class="action-btn repo">
+							<svg viewBox="0 0 16 16" width="16" height="16"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+							<span>GitHub</span>
+						</a>
+						<a href={item.demo} target="_blank" rel="noopener noreferrer" class="action-btn demo">
+							<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M4.5 2.2a.9.9 0 0 1 1.37-.77l8.1 5.3a.9.9 0 0 1 0 1.54l-8.1 5.3A.9.9 0 0 1 4.5 13.3V2.2z"/></svg>
 							<span>Demo</span>
 						</a>
 					</div>
@@ -46,9 +86,26 @@ import { portfolio } from '../data/portfolio';
 	</div>
 </section>
 
+<script>
+	// Las portadas pueden no existir (o fallar en conexiones móviles): mostramos el marcador de posición.
+	document.querySelectorAll<HTMLImageElement>('.project-cover img').forEach((img) => {
+		const markBroken = () => img.classList.add('is-broken');
+		img.addEventListener('error', markBroken);
+		if (img.complete && img.naturalWidth === 0) markBroken();
+	});
+
+	// Si un icono de tecnología falla, dejamos visible solo su nombre.
+	document.querySelectorAll<HTMLImageElement>('.tech-tag img').forEach((img) => {
+		const hideIcon = () => img.remove();
+		img.addEventListener('error', hideIcon);
+		if (img.complete && img.naturalWidth === 0) hideIcon();
+	});
+</script>
+
 <style>
 	.projects-section {
-		padding: 2em 1em 2em;
+		padding: 2em 1em 6em;
+		padding: 2em max(1em, env(safe-area-inset-right)) 6em max(1em, env(safe-area-inset-left));
 	}
 	.projects-container {
 		max-width: 960px;
@@ -61,9 +118,22 @@ import { portfolio } from '../data/portfolio';
 		color: var(--text-bright);
 		font-family: "Courier New", Courier, monospace;
 	}
+	.category-title {
+		font-size: 1em;
+		margin: 0 0 1.2em 0;
+		padding-left: 0.7em;
+		border-left: 2px solid var(--text-bright);
+		color: var(--text-bright);
+		font-family: "Courier New", Courier, monospace;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+	}
+	.category-title + .projects-grid ~ .category-title {
+		margin-top: 3em;
+	}
 	.projects-grid {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+		grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
 		gap: 1.5em;
 	}
 	.project-card {
@@ -73,7 +143,6 @@ import { portfolio } from '../data/portfolio';
 		transition: border-color 0.2s, transform 0.2s;
 		display: flex;
 		flex-direction: column;
-		height: 380px;
 		position: relative;
 	}
 	.project-card:hover {
@@ -85,6 +154,7 @@ import { portfolio } from '../data/portfolio';
 		height: 160px;
 		overflow: hidden;
 		flex-shrink: 0;
+		position: relative;
 	}
 	.project-cover img {
 		width: 100%;
@@ -93,6 +163,9 @@ import { portfolio } from '../data/portfolio';
 		display: block;
 		filter: grayscale(100%);
 		transition: filter 0.3s;
+	}
+	.project-cover img.is-broken {
+		display: none;
 	}
 	.project-card:hover .project-cover img {
 		filter: grayscale(0%);
@@ -106,6 +179,14 @@ import { portfolio } from '../data/portfolio';
 		justify-content: center;
 		border-bottom: 1px solid var(--border);
 	}
+	.cover-placeholder.fallback {
+		display: none;
+		position: absolute;
+		inset: 0;
+	}
+	.project-cover img.is-broken + .cover-placeholder.fallback {
+		display: flex;
+	}
 	.placeholder-text {
 		font-size: 2em;
 		font-weight: 700;
@@ -118,7 +199,6 @@ import { portfolio } from '../data/portfolio';
 		display: flex;
 		flex-direction: column;
 		flex-grow: 1;
-		overflow: hidden;
 	}
 	.project-title {
 		font-size: 1.2em;
@@ -131,12 +211,9 @@ import { portfolio } from '../data/portfolio';
 		line-height: 1.6;
 		color: var(--text);
 		margin: 0 0 1em 0;
-		flex-grow: 1;
 		font-family: "Courier New", Courier, monospace;
-		overflow: hidden;
-		display: -webkit-box;
-		-webkit-line-clamp: 3;
-		-webkit-box-orient: vertical;
+		flex-grow: 1;
+		min-height: 4.32em;
 	}
 	.project-tech {
 		display: flex;
@@ -144,12 +221,98 @@ import { portfolio } from '../data/portfolio';
 		gap: 0.4em;
 	}
 	.tech-tag {
-		font-size: 0.75em;
-		padding: 0.2em 0.6em;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		position: relative;
+		width: 34px;
+		height: 34px;
 		background: var(--bg);
 		border: 1px solid var(--border);
 		color: var(--text-dim);
 		font-family: "Courier New", Courier, monospace;
+		font-size: 0.75em;
+	}
+	.tech-tag img {
+		display: block;
+		width: 18px;
+		height: 18px;
+		filter: grayscale(100%) brightness(0) invert(1);
+		opacity: 0.75;
+		transition: opacity 0.2s, filter 0.2s;
+	}
+	.tech-tag:hover img,
+	.tech-tag:focus img,
+	.project-card:hover .tech-tag img,
+	.project-card:focus-within .tech-tag img,
+	.mini-card:hover .tech-tag img,
+	.mini-card:focus-within .tech-tag img {
+		opacity: 1;
+		filter: grayscale(0%);
+	}
+	.tech-tag::after {
+		content: attr(data-label);
+		position: absolute;
+		bottom: calc(100% + 6px);
+		left: 50%;
+		transform: translateX(-50%);
+		padding: 0.25em 0.5em;
+		background: var(--text-bright);
+		color: var(--bg);
+		font-size: 0.7em;
+		white-space: nowrap;
+		opacity: 0;
+		visibility: hidden;
+		pointer-events: none;
+		transition: opacity 0.15s;
+		z-index: 10;
+	}
+	.tech-tag:hover::after,
+	.tech-tag:focus::after {
+		opacity: 1;
+		visibility: visible;
+	}
+	.mini-grid {
+		grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+		gap: 1em;
+	}
+	.mini-card {
+		display: flex;
+		flex-direction: column;
+		border: 1px solid var(--border);
+		background: var(--bg-card);
+		transition: border-color 0.2s;
+	}
+	.mini-card:hover {
+		border-color: var(--text-bright);
+	}
+	.mini-top {
+		display: flex;
+		align-items: flex-start;
+		gap: 1em;
+		padding: 1.2em;
+		flex-grow: 1;
+	}
+	.mini-card .tech-tag {
+		width: 44px;
+		height: 44px;
+		flex-shrink: 0;
+	}
+	.mini-card .tech-tag img {
+		width: 24px;
+		height: 24px;
+	}
+	.mini-title {
+		font-size: 0.95em;
+		margin: 0 0 0.4em 0;
+	}
+	.mini-description {
+		font-size: 0.85em;
+		line-height: 1.6;
+		color: var(--text-dim);
+		margin: 0;
+		font-family: "Courier New", Courier, monospace;
+		min-height: 4.08em;
 	}
 	.project-actions {
 		display: flex;
@@ -205,12 +368,31 @@ import { portfolio } from '../data/portfolio';
 			font-size: 1.4em;
 			margin-bottom: 2em;
 		}
-		.project-card {
-			height: auto;
-			min-height: 380px;
+		.project-body {
+			padding: 1.15em;
 		}
 		.project-cover {
 			height: 140px;
+		}
+		.action-btn {
+			min-height: 48px;
+		}
+		.project-description {
+			min-height: 5.76em;
+		}
+		.mini-description {
+			min-height: 5.44em;
+		}
+	}
+	@media (max-width: 380px) {
+		.project-cover {
+			height: 120px;
+		}
+		.project-description {
+			min-height: 7.2em;
+		}
+		.mini-description {
+			min-height: 6.8em;
 		}
 	}
 </style>

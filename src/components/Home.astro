@@ -5,7 +5,7 @@ import { portfolio } from '../data/portfolio';
 <section id="home" class="home-section">
 	<div class="home-content">
 		<p class="greeting">
-			<span data-lang-es">&gt; Hola, soy</span>
+			<span data-lang-es>&gt; Hola, soy</span>
 			<span data-lang-en>&gt; Hello, I'm</span>
 		</p>
 		<h1 class="name">{portfolio.name}</h1>
@@ -32,11 +32,13 @@ import { portfolio } from '../data/portfolio';
 
 <style>
 	.home-section {
-		min-height: 80vh;
+		min-height: 100vh;
+		min-height: 100svh;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		padding: 3em 1em 2em;
+		padding: 5em 1em 3em;
+		padding: 5em max(1em, env(safe-area-inset-right)) 3em max(1em, env(safe-area-inset-left));
 	}
 	.home-content {
 		max-width: 680px;
@@ -49,7 +51,7 @@ import { portfolio } from '../data/portfolio';
 		font-family: "Courier New", Courier, monospace;
 	}
 	.name {
-		font-size: 3.2em;
+		font-size: clamp(2rem, 8vw, 3.2em);
 		margin: 0 0 0.2em 0;
 		line-height: 1.1;
 		color: var(--text-bright);
@@ -68,6 +70,8 @@ import { portfolio } from '../data/portfolio';
 		color: var(--text);
 		margin: 0 0 1.5em 0;
 		font-family: "Courier New", Courier, monospace;
+		/* Reserva fija para que el texto no desplace los botones ni el espacio con Projects */
+		min-height: 5.1em;
 	}
 	.cta-links {
 		display: flex;
@@ -75,7 +79,10 @@ import { portfolio } from '../data/portfolio';
 		flex-wrap: wrap;
 	}
 	.btn {
-		display: inline-block;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-height: 44px;
 		padding: 0.6em 1.2em;
 		text-decoration: none;
 		font-size: 0.9em;
@@ -110,11 +117,22 @@ import { portfolio } from '../data/portfolio';
 		display: none;
 	}
 	@media (max-width: 600px) {
-		.name {
-			font-size: 2.4em;
+		.greeting {
+			font-size: 1em;
 		}
 		.role {
 			font-size: 1.15em;
+		}
+		.bio {
+			min-height: 8.5em;
+		}
+	}
+	@media (max-width: 380px) {
+		.cta-links {
+			flex-direction: column;
+		}
+		.btn {
+			width: 100%;
 		}
 	}
 </style>

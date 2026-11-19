@@ -5,8 +5,8 @@ import { portfolio } from '../data/portfolio';
 <section id="contact" class="contact-section">
 	<div class="contact-container">
 		<h2 class="section-title">
-			<span data-lang-es>&gt; Contacto</span>
-			<span data-lang-en>&gt; Contact</span>
+			<span data-lang-es>&gt; Contacto &lt;</span>
+			<span data-lang-en>&gt; Contact &lt;</span>
 		</h2>
 		<p class="contact-text">
 			<span data-lang-es>¿Tienes un proyecto en mente o quieres colaborar? No dudes en contactarme.</span>
@@ -28,7 +28,8 @@ import { portfolio } from '../data/portfolio';
 
 <style>
 	.contact-section {
-		padding: 2em 1em;
+		padding: 2em 1em 3em;
+		padding: 2em max(1em, env(safe-area-inset-right)) 3em max(1em, env(safe-area-inset-left));
 	}
 	.contact-container {
 		max-width: 680px;
@@ -57,10 +58,12 @@ import { portfolio } from '../data/portfolio';
 	.contact-item {
 		display: flex;
 		align-items: center;
+		justify-content: center;
 		gap: 0.5em;
 		color: var(--text);
 		text-decoration: none;
 		font-size: 0.9em;
+		min-height: 48px;
 		padding: 0.6em 1.2em;
 		border: 1px solid var(--border);
 		background: var(--bg-card);
@@ -86,8 +89,13 @@ import { portfolio } from '../data/portfolio';
 	@media (max-width: 600px) {
 		.contact-links {
 			flex-direction: column;
-			align-items: center;
-			gap: 1em;
+			align-items: stretch;
+			gap: 0.75em;
+		}
+		.contact-item {
+			width: 100%;
+			max-width: 360px;
+			margin: 0 auto;
 		}
 		.section-title {
 			font-size: 1.4em;
